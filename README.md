@@ -27,6 +27,8 @@ das pesquisas realizadas.
 </ul>
 
 Link direcionado para o código no expo: https://snack.expo.dev/@maducrc/via-cep-
+
+<h4>Alunos: Emilly Vitória da Silva, Maria Eduarda Chella, Matheus Amorin, Renan Leme</h4>
 <html>
 
 
