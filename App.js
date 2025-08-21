@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { View, Text, ScrollView, StyleSheet, TextInput, ActivityIndicator, Button} from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const STORAGE_KEY = "@historico_pesquisa";
+  const STORAGE_KEY = "@historico_pesquisa";
  
   const App = () => {
   const [cep, setCep] = useState('');
@@ -15,43 +15,9 @@ const STORAGE_KEY = "@historico_pesquisa";
   const [historico, setHistorico] = useState ([]);
   const [mostrarHistorico, setMostrarHistorico] = useState (false);
   
-  //Histórico
-  useEffect (() => {
-  const carregarHistorico = async () => {
-    try {
-      const salvo = await AsyncStorage.getItem(STORAGE_KEY);
-      if (salvo) setHistorico (JSON.parse(salvo)); 
-    } 
-    catch (err) {
-      console.log("Erro ao carregar histórico", err);
-    }
-    };
-    carregarHistorico();
-  }, []);
-
   
-  const salvarHistorico = async (novoHistorico) => {
-    try {
-      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(novoHistorico));
-    }
-    catch (err){
-      console.log("Erro ao salvar histórico", err);
-    }
-  };
-  
-  //Limpar histórico
-  const limparHistorico = async () => {
-  try {
-    await AsyncStorage.removeItem(STORAGE_KEY); 
-    setHistorico([]); 
-    setMostrarHistorico(false); 
-  } catch (err) {
-    console.log("Erro ao limpar histórico", err);
-  }
-};
-  
-  //Pesquisa
   const fetchCepData = async () => {
+
     setLoading(true);
     setError(null);
     setData(null);
@@ -65,6 +31,7 @@ const STORAGE_KEY = "@historico_pesquisa";
       else if (uf && localidade && logradouro) {
         url = `https://viacep.com.br/ws/${uf}/${localidade}/${logradouro}/json/`;
       }
+
       else {
         setError(new Error('Preencha com um CEP ou UF, Logradouro e Localidade'));
         setLoading (false);
@@ -92,22 +59,55 @@ const STORAGE_KEY = "@historico_pesquisa";
       } finally {
       setLoading(false);
       } 
- };
-   
-   //Limpar os campos
-   const limparInputs = () => {
+  };
+
+     const limparInputs = () => {
      setCep ('');
      setUF ('');
      setLocalidade ('');
      setLogradouro ('');
      setData ('');
    }
+
+  useEffect (() => {
+  const carregarHistorico = async () => {
+    try {
+      const salvo = await AsyncStorage.getItem(STORAGE_KEY);
+      if (salvo) setHistorico (JSON.parse(salvo)); 
+    } 
+    catch (err) {
+      console.log("Erro ao carregar histórico", err);
+    }
+  };
+    carregarHistorico();
+  }, []);
+
+  
+  const salvarHistorico = async (novoHistorico) => {
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(novoHistorico));
+    }
+    catch (err){
+      console.log("Erro ao salvar histórico", err);
+    }
+  };
+  
+  const limparHistorico = async () => {
+    try {
+     await AsyncStorage.removeItem(STORAGE_KEY); 
+     setHistorico([]); 
+     setMostrarHistorico(false); 
+    } 
+    catch (err) {
+     console.log("Erro ao limpar histórico", err);
+    }
+  };
+  
  
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Consulta CEP</Text>
-      
-      <Text style={styles.introdução}>Pesquise abaixo o endereço desejado por meio do CEP:</Text>
+      <Text style={styles.introducao}>Pesquise abaixo o endereço desejado por meio do CEP:</Text>
       
       <TextInput
         style={styles.input}
@@ -122,8 +122,7 @@ const STORAGE_KEY = "@historico_pesquisa";
       <Text style={styles.ou}> ou </Text>
       </View>
       
-  
-      <TextInput
+     <TextInput
       style={styles.log}
       placeholder="Digite uma UF (Ex: SP)" 
       keyboardType="text" 
@@ -147,58 +146,56 @@ const STORAGE_KEY = "@historico_pesquisa";
       onChangeText={setLogradouro}
       />
       
+      
       <View style={styles.button}>
       <Button title="Buscar" color="#690b98" onPress={fetchCepData}/>
       </View>
 
-      <View style={styles.button2}>
+      <View style={styles.button}>
       <Button title="Limpar Pesquisa" color="#690b98" onPress={limparInputs} />
       </View>
 
-      <View style={styles.button2}>
+      <View style={styles.button}>
       <Button title="Histórico de busca" color="#690b98" 
       onPress={() => setMostrarHistorico(!mostrarHistorico)}/></View>
-      
-      <View style={styles.button2}>
+    
+      <View style={styles.button}>
       <Button title="Limpar histórico" color="#690b98" onPress={limparHistorico} />
       </View>
 
-
-
-
-       {mostrarHistorico && historico.length > 0 && (
+      {mostrarHistorico && historico.length > 0 && (
         <View style={styles.resultHist}>
-          <Text style={styles.label2}>Buscas recentes:</Text>
-          {historico.map((item, index) => (
-            <Text key={index} style={styles.value}>{item}</Text>
+        <Text style={styles.historico}>Buscas recentes:</Text>
+         {historico.map((item, index) => (
+        <Text key={index} style={styles.value}>{item}</Text>
           ))}
         </View>
       )}
 
-
-    
       {loading && 
-      <View style={styles.bolota}>
+      <View style={styles.carregando}>
       <ActivityIndicator size={25} color="#690b98" />
       </View>
       }
       {error && <Text style={styles.error}>Erro: {error.message}</Text>}
 
-{data && Array.isArray(data) ? (
-        data.map((item, index) => (
-          <View key={index} style={styles.resultContainer}>
-            <Text style={styles.label}>CEP: <Text style={styles.value}>{item.cep}</Text></Text>
-            <Text style={styles.label}>Logradouro: <Text style={styles.value}>{item.logradouro}</Text></Text>
-            <Text style={styles.label}>Bairro: <Text style={styles.value}>{item.bairro}</Text></Text>
-            <Text style={styles.label}>Localidade: <Text style={styles.value}>{item.localidade}</Text></Text>
-            <Text style={styles.label}>UF: <Text style={styles.value}>{item.uf}</Text></Text>
-            <Text style={styles.label}>IBGE: <Text style={styles.value}>{item.ibge}</Text></Text>
-            <Text style={styles.label}>GIA: <Text style={styles.value}>{item.gia}</Text></Text>
-            <Text style={styles.label}>DDD: <Text style={styles.value}>{item.ddd}</Text></Text>
-            <Text style={styles.label}>SIAFI: <Text style={styles.value}>{item.siafi}</Text></Text>
-          </View>
+      {data && Array.isArray(data) ? (
+      data.map((item, index) => (
+        <View key={index} style={styles.resultContainer}>
+          <Text style={styles.label}>CEP: <Text style={styles.value}>{item.cep}</Text></Text>
+          <Text style={styles.label}>Logradouro: <Text style={styles.value}>{item.logradouro}</Text></Text>
+          <Text style={styles.label}>Bairro: <Text style={styles.value}>{item.bairro}</Text></Text>
+          <Text style={styles.label}>Localidade: <Text style={styles.value}>{item.localidade}</Text></Text>
+          <Text style={styles.label}>UF: <Text style={styles.value}>{item.uf}</Text></Text>
+          <Text style={styles.label}>IBGE: <Text style={styles.value}>{item.ibge}</Text></Text>
+          <Text style={styles.label}>GIA: <Text style={styles.value}>{item.gia}</Text></Text>
+          <Text style={styles.label}>DDD: <Text style={styles.value}>{item.ddd}</Text></Text>
+          <Text style={styles.label}>SIAFI: <Text style={styles.value}>{item.siafi}</Text></Text>
+        </View>
         ))
-      ) : data && !Array.isArray(data) ? (
+      ) 
+      
+      : data && !Array.isArray(data) ? (
         <View style={styles.resultContainer}>
           <Text style={styles.label}>CEP: <Text style={styles.value}>{data.cep}</Text></Text>
           <Text style={styles.label}>Logradouro: <Text style={styles.value}>{data.logradouro}</Text></Text>
@@ -211,6 +208,7 @@ const STORAGE_KEY = "@historico_pesquisa";
           <Text style={styles.label}>SIAFI: <Text style={styles.value}>{data.siafi}</Text></Text>
         </View>
       ) : null}
+    
     </ScrollView>
   );
 };
@@ -228,6 +226,12 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     textAlign: 'center',
     marginTop: 20,
+  },
+   introducao: {
+    fontSize: 12,
+    textAlign: 'center',
+    marginVertical: 18,
+    color: '#690b98'
   },
   input: {
     borderWidth: 1,
@@ -254,7 +258,7 @@ const styles = StyleSheet.create({
     color:'#690b98',
     marginTop: 5,
   },
-   label2: {
+   historico: {
     fontWeight: 'bold',
     color:'#690b98',
     textAlign: 'center'
@@ -267,13 +271,9 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#f9f7fa",
     textAlign: 'center',
-  },
-  button2: {
-    backgroundColor: "#f9f7fa",
-    textAlign: 'center',
     marginTop: 5,
   },
-  bolota: {
+  carregando: {
   flex: 1,
   justifyContent: 'center',
   alignItems: 'center',
@@ -292,12 +292,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#690b98',
     marginVertical: 10,
-  },
-  introdução: {
-    fontSize: 12,
-    textAlign: 'center',
-    marginVertical: 18,
-    color: '#690b98'
   },
   resultHist: {
     marginTop: 25,
