@@ -19,6 +19,7 @@
 <li>HTML</li>
 </ul>
 
+Link para o APP (https://snack.expo.dev/?platform=web)
 <html>
 
 
