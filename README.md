@@ -19,7 +19,7 @@
 <li>HTML</li>
 </ul>
 
-Link para o APP https://snack.expo.dev/?platform=web
+Link para o APP https://snack.expo.dev/@maducrc/via-cep-
 <html>
 
 
