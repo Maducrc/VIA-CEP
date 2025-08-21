@@ -15,7 +15,7 @@ das pesquisas realizadas.
 <li>Funcionalidade de pesquisa por CEP</li>
 <li>Funcionalidade de pesquisa por endereço</li>
 <li>Histórico de pesquisa</li>
-<li>Funcionalidade de limpeza de Histórico</li>
+<li>Funcionalidade de limpeza de histórico</li>
 <li>Funcionalidade de limpeza de campos</li>
 </ul>
 
