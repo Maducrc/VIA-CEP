@@ -3,16 +3,16 @@
 
 ## Consulta e histórico de CEP e endereço
 
-### Funcionalidades: 
+#### Funcionalidades: 
 <ul>
 <li>Pesquisa por CEP</li>
 <li>Pesquisa por UF, Localidade e Logradouro</li>
 <li>Limpeza de campos</li>
 <li>Histórico</li>
 <li>Limpeza de Histórico</li>
-<ul>
+</ul>
 
-### Linguagens utilizadas:
+#### Linguagens utilizadas:
 <ul>
 <li>JS</li>
 <li>CSS</li>
