@@ -1,21 +1,27 @@
 # VIA CEP 
 <html>
 
-###Consulta e histórico de CEP e endereço
+## Consulta e histórico de CEP e endereço
 
-Funcionalidades: 
+### Funcionalidades: 
 <ul>
 <li>Pesquisa por CEP</li>
 <li>Pesquisa por UF, Localidade e Logradouro</li>
-<li>•	Limpeza de campos</li>
+<li>Limpeza de campos</li>
 <li>Histórico</li>
 <li>Limpeza de Histórico</li>
 <ul>
 
-Linguagens utilizadas:
-•	JS
-•	CSS
-•	HTML
+### Linguagens utilizadas:
+<ul>
+<li>JS</li>
+<li>CSS</li>
+<li>HTML</li>
+</ul>
 <html>
+
+
+
+
 
 
